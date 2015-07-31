@@ -49,7 +49,7 @@ app.get('/fogbugzUpdate', function(request, response) {
       case "CaseReactivated":
         handleCaseReactivated(request.query);
         break;
-    });
+    }
   
   }
   response.end("Thanks");
