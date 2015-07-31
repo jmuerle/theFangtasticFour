@@ -52,36 +52,15 @@ app.get('/fogbugzUpdate', function(request, response) {
 
 function addCaseObjToDb(client, caseObj, callback) {
   client.query(
-    'INSERT INTO cases (case_number, creation_date) VALUES (' + caseObj.caseNumber + ', \'' + caseObj.dateOpened + '\')',
+    'INSERT INTO cases (case_number, creation_date) VALUES (' + caseObj.caseNumber + ', \'' + caseObj.dateOpened + '\')' +
+    ' RETURNING *',
     function (err, result) {
-      client.query('SELECT * FROM cases WHERE case_number=' + caseObj.caseNumber, function (err, result) {
-        callback(result.rows[0]);
-      });
+      callback(result.rows[0]);
+      // client.query('SELECT * FROM cases WHERE case_number=' + caseObj.caseNumber, function (err, result) {
+      //   callback(result.rows[0]);
+      // });
     }
   );
-}
-
-function addUpdateToDb(client, caseObj, caseArgs, callback) {
-    switch (caseArgs.eventType) {
-      case "CaseEdited":
-        handleCaseEdited(client, caseArgs);
-        break;
-      case "CaseAssigned":
-        handleCaseAssigned(client, caseArgs);
-        break;
-      case "CaseResolved":
-        handleCaseResolved(client, caseArgs);
-        break;
-      case "CaseClosed":
-        handleCaseClosed(client, caseArgs);
-        break;
-      case "CaseReopened":
-        handleCaseReopened(client, caseArgs);
-        break;
-      case "CaseReactivated":
-        handleCaseReactivated(client, caseArgs);
-        break;
-    }
 }
 
 // assignedToName: 'Kevin O\'Connor',
@@ -93,6 +72,39 @@ function addUpdateToDb(client, caseObj, caseArgs, callback) {
 // projectName: 'Tools & Services',
 // statusName: 'Active',
 // title: 'Test Bug for Fangtastic Four'
+function addUpdateToDb(client, caseObj, caseArgs, callback) {
+  var query =
+    "INSERT INTO case_events " +
+      "(case_id, person_editing_name, event_type, status_name, event_text, event_time, title, project_name) " +
+      "VALUES (" + caseObj.caseNumber + ", '" + caseArgs.personEditingName + "', '" + caseArgs.eventType + "', '" +
+        caseArgs.statusName + "', '" + caseArgs.eventText + "', '" + caseArgs.eventTime + "', '" + caseArgs.title +
+        "', '" + caseArgs.projectName + "')";
+  client.query(query, function (err) {
+    console.log("Error:");
+    console.log(err);
+  });
+    // switch (caseArgs.eventType) {
+    //   case "CaseEdited":
+    //     handleCaseEdited(client, caseArgs);
+    //     break;
+    //   case "CaseAssigned":
+    //     handleCaseAssigned(client, caseArgs);
+    //     break;
+    //   case "CaseResolved":
+    //     handleCaseResolved(client, caseArgs);
+    //     break;
+    //   case "CaseClosed":
+    //     handleCaseClosed(client, caseArgs);
+    //     break;
+    //   case "CaseReopened":
+    //     handleCaseReopened(client, caseArgs);
+    //     break;
+    //   case "CaseReactivated":
+    //     handleCaseReactivated(client, caseArgs);
+    //     break;
+    // }
+}
+
 function handleCaseEdited(client, caseArgs) {
   console.log("case edited");
   console.log(caseArgs);
