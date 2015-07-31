@@ -17,7 +17,7 @@ app.get('/', function(request, response) {
         name: 'Bug sleuth',
         trophySrc: 'images/bugsleuth.png',
         winnerName: 'Sherlock Holmes',
-        description: 'Most bugs
+        description: 'Most bugs fixed'
       }
     ]
   });
