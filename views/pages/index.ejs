@@ -9,9 +9,9 @@
   <% include ../partials/nav.ejs %>
   <% awards.forEach(function(award) { %>
     <div class='awardContainer'>
-      <div class='awardName'><%= award.name %></div>
       <img class='trophyImage' src='<%= award.trophySrc %>'></img>
       <div class='awardInfo'>
+        <div class='awardName'><%= award.name %></div>
         <div class='awardWinnerName'><%= award.winnerName %></div>
         <div class='awardDescription'><%= award.description %></div>
       </div>
