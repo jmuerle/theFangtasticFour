@@ -15,6 +15,7 @@ app.set('view engine', 'ejs');
 app.get('/', function(request, response) {
   var numQueries = 7,
     currQueriesComplete = 0,
+    numRanks = 5,
     client = new pg.Client(process.env.DATABASE_URL),
     awards = [];
   function pushAward(award) {
@@ -28,56 +29,68 @@ app.get('/', function(request, response) {
   }
   client.connect(function (err) {
     trophyQueries.mostBugsResolved(client, function (result) {
-      var topRow = result.rows[0];
+      var createRanking = function (row) {
+        return {name: row.person_editing_name, value: row.bugs_resolved};
+      }
       pushAward({
-        name: 'Problem Solver',
-        trophySrc: '/images/',
-        rankings: [{name: topRow.person_editing_name, value: topRow.bugs_resolved}],
+        name: 'Captain Kiwi',
+        trophySrc: '/images/captainkiwiaward.png',
+        rankings: result.rows.slice(0, numRanks).map(createRanking),
         description: 'For Most Cases Fixed'
       });
     });
     trophyQueries.mostBugsOpened(client, function (result) {
-      var topRow = result.rows[0];
+      var createRanking = function (row) {
+        return {name: row.person_editing_name, value: row.bugs_opened};
+      }
       pushAward({
         name: 'Bug Sleuth',
         trophySrc: '/images/bugsleuth.png',
-        rankings: [{name: topRow.person_editing_name, value: topRow.bugs_opened}],
+        rankings: result.rows.slice(0, numRanks).map(createRanking),
         description: 'For Most Cases Opened'
       });
     });
     trophyQueries.mostBugsReopened(client, function (result) {
-      var topRow = result.rows[0];
+      var createRanking = function (row) {
+        return {name: row.person_editing_name, value: row.bugs_reopened};
+      }
       pushAward({
         name: 'Checkin\' it Twice',
-        trophySrc: '/images/',
-        rankings: [{name: topRow.person_editing_name, value: topRow.bugs_reopened}],
+        trophySrc: '/images/listaward.png',
+        rankings: result.rows.slice(0, numRanks).map(createRanking),
         description: 'For Most Cases Reopened'
       });
     });
     trophyQueries.mostComments(client, function (result) {
-      var topRow = result.rows[0];
+      var createRanking = function (row) {
+        return {name: row.person_editing_name, value: row.num_comments};
+      }
       pushAward({
         name: 'Busy Bee',
         trophySrc: '/images/busybeeaward.png',
-        rankings: [{name: topRow.person_editing_name, value: topRow.num_comments}],
+        rankings: result.rows.slice(0, numRanks).map(createRanking),
         description: 'For Most Comments Made On Cases'
       });
     });
     trophyQueries.longestComment(client, function (result) {
-      var topRow = result.rows[0];
+      var createRanking = function (row) {
+        return {name: row.person_editing_name, value: row.num_chars};
+      }
       pushAward({
-        name: 'The Tolkien Award',
-        trophySrc: '/images/',
-        rankings: [{name: topRow.person_editing_name, value: topRow.num_chars}],
+        name: 'Tolkien Award',
+        trophySrc: '/images/tolkienaward.png',
+        rankings: result.rows.slice(0, numRanks).map(createRanking),
         description: 'For Longest Comment Made On A Case'
       });
     });
     trophyQueries.oldestBugResolved(client, function (result) {
-      var topRow = result.rows[0];
+      var createRanking = function (row) {
+        return {name: row.person_editing_name, value: row.first_creation_date};
+      }
       pushAward({
         name: 'When Pigs Fly',
         trophySrc: '/images/flyingpigaward.png',
-        rankings: [{name: topRow.person_editing_name, value: topRow.first_creation_date}],
+        rankings: result.rows.slice(0, numRanks).map(createRanking),
         description: 'For Oldest Case Fixed'
       });
     });
