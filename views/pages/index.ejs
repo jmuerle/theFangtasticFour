@@ -10,7 +10,7 @@
     <div class='awardContainer'>
       <div class='trophyImage' style='background-image:url("<%= award.trophySrc %>")'></div>
       <div class='awardInfo'>
-        <div class="awardWinnerPic"><img src=<%= "/images/" + award.name.replace(/ /g, "") %>/></div>
+        <div class="awardWinnerPic"><img src=<%= "/images/" + award.name.replace(/ /g, "") + ".jpg" %>/></div>
         <div class='awardHeld'>The <%= award.name %> Award Currently Held By:</div>
         <div class='awardWinnerName'><%= award.rankings[0].name %></div>
         <div class='awardDescription'><%= award.description %>:</div>
