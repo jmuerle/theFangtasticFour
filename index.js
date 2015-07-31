@@ -97,7 +97,7 @@ app.get('/', function(request, response) {
     });
     trophyQueries.earliestActivity(client, function (result) {
       var rows = !result.rows || result.rows.length === 0 
-        ? [{person_editing_name: 'James Muerle', event_time: '6:00 am' }]
+        ? [{person_editing_name: 'James Muerle', event_time: new Date() }]
         : result.rows.slice(0, numRanks);
 
       pushAward({
