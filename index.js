@@ -82,7 +82,7 @@ app.get('/', function(request, response) {
       });
     });
     trophyQueries.earliestActivity(client, function (result) {
-      var rows = result.rows || [];
+      var rows = result.rows || [{name: 'James Muerle', value: '6:00 am' }];
       pushAward({
         name: 'Early bird',
         trophySrc: '/images/earlybirdaward.png',
