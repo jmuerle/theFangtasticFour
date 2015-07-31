@@ -27,7 +27,3 @@ function getCaseInFlatFormat(caseObj) {
 }
 
 exports.getFogbugzCase = getFogbugzCase;
-
-
-
-
