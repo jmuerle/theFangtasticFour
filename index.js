@@ -54,10 +54,9 @@ function addCaseObjToDb(client, caseObj, callback) {
   client.query(
     'INSERT INTO cases (case_number, creation_date) VALUES (' + caseObj.caseNumber + ', \'' + caseObj.dateOpened + '\')',
     function (err, result) {
-      console.log("Error: ");
-      console.log(err);
-      console.log(result.rows);
-      // Make the callback
+      client.query('SELECT * FROM cases WHERE case_number=' + caseObj.caseNumber, function (err, result) {
+        callback(result.rows[0]);
+      });
     }
   );
 }
@@ -96,35 +95,35 @@ function addUpdateToDb(client, caseObj, caseArgs, callback) {
 // title: 'Test Bug for Fangtastic Four'
 function handleCaseEdited(client, caseArgs) {
   console.log("case edited");
-  console.log(reqArgsForCase);
+  console.log(caseArgs);
 }
 
 function handleCaseAssigned(client, caseArgs) {
   console.log("case assigned");
-  console.log(reqArgsForCase);
+  console.log(caseArgs);
 }
 
 function handleCaseResolved(client, caseArgs) {
   console.log("case resolved");
-  console.log(reqArgsForCase);
+  console.log(caseArgs);
 
 }
 
 function handleCaseClosed(client, caseArgs) {
   console.log("case closed");
-  console.log(reqArgsForCase);
+  console.log(caseArgs);
 
 }
 
 function handleCaseReopened(client, caseArgs) {
   console.log("case reopened");
-  console.log(reqArgsForCase);
+  console.log(caseArgs);
 
 }
 
 function handleCaseReactivated(client, caseArgs) {
   console.log("case reactivated");
-  console.log(reqArgsForCase);
+  console.log(caseArgs);
 }
 
 app.listen(app.get('port'), function() {
