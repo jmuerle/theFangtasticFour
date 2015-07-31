@@ -65,7 +65,7 @@ function earliestActivity(client, callback) {
     if (err) { console.log(err); }
     var rows = result.rows;
 
-    rows = rows.filter(function(row) { getPacificTimeHour(row.event_time); });
+    rows = rows.filter(function(row) { return getPacificTimeHour(row.event_time) >= 5; });
 
     rows.sort(function(row1, row2) {
       return getPacificTimeHour(row1.event_time) - getPacificTimeHour(row2.event_time);
@@ -84,10 +84,16 @@ function latestActivity(client, callback) {
     if (err) { console.log(err); }
     var rows = result.rows;
 
-    rows = rows.filter(function(row) { getPacificTimeHour(row.event_time); });
+    rows = rows.filter(function(row) { 
+      var h = getPacificTimeHour(row.event_time) 
+      return h >= 18 || h < 5;
+    });
 
     rows.sort(function(row1, row2) {
-      return getPacificTimeHour(row2.event_time) - getPacificTimeHour(row1.event_time);
+      var h1 = getPacificTimeHour(row1.event_time);
+      var h2 = getPacificTimeHour(row2.event_time);
+
+      return ((h2 + 19) % 24) - ((h1 + 19 % 24);
     });
 
     callback(rows);

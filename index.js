@@ -113,7 +113,7 @@ app.get('/', function(request, response) {
         : result.rows.slice(0, numRanks);
 
       pushAward({
-        name: 'Early bird',
+        name: 'Night owl',
         trophySrc: '/images/nightowlaward.png',
         rankings: rows.map(function(row) { return { name: row.person_editing_name, value: row.event_time}; }),
         description: 'For Latest Activity'
