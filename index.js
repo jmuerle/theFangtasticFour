@@ -118,8 +118,7 @@ app.get('/', function(request, response) {
         name: 'Night owl',
         trophySrc: '/images/nightowlaward.png',
         rankings: rows.map(function(row) { 
-          var timeString = row.event_time.toTimeString();
-          return { name: row.person_editing_name, value: timeString.slice(0, timeString.length - 4)}; // HACK
+          return { name: row.person_editing_name, value: toTimeString(row.event_time)}; // HACK
         }),
         description: 'For Latest Activity'
       });
