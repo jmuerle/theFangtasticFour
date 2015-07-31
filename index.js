@@ -55,6 +55,8 @@ function addCaseObjToDb(client, caseObj, callback) {
     'INSERT INTO cases (case_number, creation_date) VALUES (' + caseObj.caseNumber + ', \'' + caseObj.dateOpened + '\')' +
     ' RETURNING *',
     function (err, result) {
+      console.log("got result:");
+      console.log(result.rows);
       callback(result.rows[0]);
       // client.query('SELECT * FROM cases WHERE case_number=' + caseObj.caseNumber, function (err, result) {
       //   callback(result.rows[0]);
@@ -105,38 +107,38 @@ function addUpdateToDb(client, caseObj, caseArgs, callback) {
     // }
 }
 
-function handleCaseEdited(client, caseArgs) {
-  console.log("case edited");
-  console.log(caseArgs);
-}
+// function handleCaseEdited(client, caseArgs) {
+//   console.log("case edited");
+//   console.log(caseArgs);
+// }
 
-function handleCaseAssigned(client, caseArgs) {
-  console.log("case assigned");
-  console.log(caseArgs);
-}
+// function handleCaseAssigned(client, caseArgs) {
+//   console.log("case assigned");
+//   console.log(caseArgs);
+// }
 
-function handleCaseResolved(client, caseArgs) {
-  console.log("case resolved");
-  console.log(caseArgs);
+// function handleCaseResolved(client, caseArgs) {
+//   console.log("case resolved");
+//   console.log(caseArgs);
 
-}
+// }
 
-function handleCaseClosed(client, caseArgs) {
-  console.log("case closed");
-  console.log(caseArgs);
+// function handleCaseClosed(client, caseArgs) {
+//   console.log("case closed");
+//   console.log(caseArgs);
 
-}
+// }
 
-function handleCaseReopened(client, caseArgs) {
-  console.log("case reopened");
-  console.log(caseArgs);
+// function handleCaseReopened(client, caseArgs) {
+//   console.log("case reopened");
+//   console.log(caseArgs);
 
-}
+// }
 
-function handleCaseReactivated(client, caseArgs) {
-  console.log("case reactivated");
-  console.log(caseArgs);
-}
+// function handleCaseReactivated(client, caseArgs) {
+//   console.log("case reactivated");
+//   console.log(caseArgs);
+// }
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
