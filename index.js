@@ -82,11 +82,11 @@ app.get('/', function(request, response) {
       });
     });
     trophyQueries.earliestActivity(client, function (result) {
-      var topRow = result.rows[0];
+      var rows = result.rows || [];
       pushAward({
         name: 'Early bird',
         trophySrc: '/images/earlybirdaward.png',
-        rankings: [{name: topRow.person_editing_name, value: topRow.event_time}],
+        rankings: rows.map(function(row) { return { name: row.person_editing_name, value: row.event_time}; }),
         description: 'For Earliest Activity'
       });
     });
