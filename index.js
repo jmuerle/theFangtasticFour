@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var pg = require('pg');
 var caseRequester = require("./fogbugzCaseRequester");
+var trophyQueries = require("./trophyQueries");
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -12,20 +13,74 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 app.get('/', function(request, response) {
-  response.render('pages/index', {
-    awards: [
-      {
+  var numQueries = 6,
+    currQueriesComplete = 0,
+    client = new pg.Client(process.env.DATABASE_URL),
+    awards = [];
+  function pushAward(award) {
+    awards.push(award);
+    currQueriesComplete += 1;
+    if (currQueriesComplete === numQueries) {
+      response.render('pages/index', {
+        awards: awards
+      });
+    }
+  }
+  client.connect(function (err) {
+    trophyQueries.mostBugsResolved(client, function (result) {
+      var topRow = result.rows[0];
+      pushAward({
+        name: 'Problem Solver',
+        trophySrc: '/images/',
+        rankings: [{name: topRow.person_editing_name, value: topRow.bugs_resolved}],
+        description: 'For Most Cases Fixed'
+      });
+    });
+    trophyQueries.mostBugsOpened(client, function (result) {
+      var topRow = result.rows[0];
+      pushAward({
         name: 'Bug Sleuth',
         trophySrc: '/images/bugsleuth.png',
-        rankings: [
-        	{ name: 'Sherlock Holmes', value: 230 },
-        	{ name: 'Sherlock Holmes2', value: 200 },
-        	{ name: 'Sherlock Holmes3', value: 180 },
-        	{ name: 'Sherlock Holmes4', value: 160 },
-        	{ name: 'Sherlock Holmes5', value: 120 }],
-        description: 'For Most Bugs Fixed'
-      }
-    ]
+        rankings: [{name: topRow.person_editing_name, value: topRow.bugs_opened}],
+        description: 'For Most Cases Opened'
+      });
+    });
+    trophyQueries.mostBugsReopened(client, function (result) {
+      var topRow = result.rows[0];
+      pushAward({
+        name: 'Checkin\' it Twice',
+        trophySrc: '/images/',
+        rankings: [{name: topRow.person_editing_name, value: topRow.bugs_reopened}],
+        description: 'For Most Cases Reopened'
+      });
+    });
+    trophyQueries.mostComments(client, function (result) {
+      var topRow = result.rows[0];
+      pushAward({
+        name: 'Busy Bee',
+        trophySrc: '/images/busybeeaward.png',
+        rankings: [{name: topRow.person_editing_name, value: topRow.num_comments}],
+        description: 'For Most Comments Made On Cases'
+      });
+    });
+    trophyQueries.longestComment(client, function (result) {
+      var topRow = result.rows[0];
+      pushAward({
+        name: 'The Tolkien Award',
+        trophySrc: '/images/',
+        rankings: [{name: topRow.person_editing_name, value: topRow.num_chars}],
+        description: 'For Longest Comment Made On A Case'
+      });
+    });
+    trophyQueries.oldestBugResolved(client, function (result) {
+      var topRow = result.rows[0];
+      pushAward({
+        name: 'When Pigs Fly',
+        trophySrc: '/images/flyingpigaward.png',
+        rankings: [{name: topRow.person_editing_name, value: topRow.creation_date}],
+        description: 'For Oldest Case Fixed'
+      });
+    });
   });
 });
 
