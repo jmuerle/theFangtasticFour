@@ -10,7 +10,16 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 app.get('/', function(request, response) {
-  response.render('pages/index');
+  response.render('pages/index', {
+    awards: [
+      {
+        name: 'Bug sleuth',
+        trophySrc: 'TODO',
+        winnerName: 'Sherlock Holmes',
+        description: 'Most bugs
+      }
+    ]
+  });
 });
 
 app.get('/fogbugzUpdate', function(request, response) {
