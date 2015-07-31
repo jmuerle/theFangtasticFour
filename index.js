@@ -17,7 +17,12 @@ app.get('/', function(request, response) {
       {
         name: 'Bug Sleuth',
         trophySrc: '/images/bugsleuth.png',
-        winnerName: 'Sherlock Holmes',
+        rankings: [
+        	{ name: 'Sherlock Holmes', value: 230 },
+        	{ name: 'Sherlock Holmes2', value: 200 },
+        	{ name: 'Sherlock Holmes3', value: 180 },
+        	{ name: 'Sherlock Holmes4', value: 160 },
+        	{ name: 'Sherlock Holmes5', value: 120 }],
         description: 'For Most Bugs Fixed'
       }
     ]

@@ -1,3 +1,11 @@
+.trophyImage {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 200px;
+  height: 200px;
+}
+
 .awardContainer {
   display: flex;
 }
@@ -13,14 +21,54 @@
 }
 
 .awardHeld {
-  font-size: 40px;
+  font-size: 20px;
 }
 
 .awardWinnerName {
-  font-size: 60px;
+  font-size: 40px;
   font-weight: bold;
 }
 
 .awardDescription {
-  font-size: 40px;
+  font-size: 20px;
 }
+
+.leaderBoardContainer {
+  border: 10px solid #8AC007;
+  margin-left: 20px;
+}
+
+.leaderBoard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+  padding-left: 30px;
+  padding-right: 30px;
+  display: table;
+}
+
+.tableRow {
+  display: table-row;
+  font-size: 16px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+} 
+
+.colHeader {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.tableCell {
+  display: table-cell;
+}
+
+.tableCell:nth-child(1) {
+  width: 200px;
+}
+

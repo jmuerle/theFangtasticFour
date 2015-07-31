@@ -9,11 +9,26 @@
   <% include ../partials/nav.ejs %>
   <% awards.forEach(function(award) { %>
     <div class='awardContainer'>
-      <img class='trophyImage' src='<%= award.trophySrc %>'></img>
+      <div class='trophyImage' style='background-image:url("<%= award.trophySrc %>")'></div>
       <div class='awardInfo'>
         <div class='awardHeld'>The <%= award.name %> Award Currently Held By:</div>
-        <div class='awardWinnerName'><%= award.winnerName %></div>
-        <div class='awardDescription'><%= award.description %></div>
+        <div class='awardWinnerName'><%= award.rankings[0].name %></div>
+        <div class='awardDescription'><%= award.description %>: <%= award.rankings[0].value %></div>
+      </div>
+      <div class='leaderBoardContainer'>
+        <div class='title'>Leader Board</div>
+        <div class='leaderBoard'>
+          <div class='tableRow'>
+            <div class='tableCell colHeader'>Name</div>
+            <div class='tableCell colHeader'>Value</div>
+          </div>
+          <% award.rankings.forEach(function(runnerUp) { %>
+            <div class='tableRow'>
+              <div class='tableCell runnerUpName'><%= runnerUp.name %></div>
+              <div class='tableCell runnerUpValue'><%= runnerUp.value %></div>
+            </div>
+          <% }); %>
+        </div>
       </div>
     </div>
   <% }); %>
