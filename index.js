@@ -55,7 +55,7 @@ app.get('/', function(request, response) {
         return {name: row.person_editing_name, value: row.bugs_reopened};
       }
       pushAward({
-        name: 'Checkin\' it Twice',
+        name: 'Checkin\' It Twice',
         trophySrc: '/images/listaward.png',
         rankings: dedupe(result.rows).slice(0, numRanks).map(createRanking),
         description: 'For Most Cases Reopened'
@@ -101,7 +101,7 @@ app.get('/', function(request, response) {
         : dedupe(result.rows).slice(0, numRanks);
 
       pushAward({
-        name: 'Early bird',
+        name: 'Early Bird',
         trophySrc: '/images/earlybirdaward.png',
         rankings: rows.map(function(row) { 
           return { name: row.person_editing_name, value: toTimeString(row.event_time)};
@@ -115,7 +115,7 @@ app.get('/', function(request, response) {
         : dedupe(result.rows).slice(0, numRanks);
       
       pushAward({
-        name: 'Night owl',
+        name: 'Night Owl',
         trophySrc: '/images/nightowlaward.png',
         rankings: rows.map(function(row) { 
           return { name: row.person_editing_name, value: toTimeString(row.event_time)}; // HACK
