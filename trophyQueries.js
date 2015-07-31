@@ -53,6 +53,8 @@ function oldestBugResolved(client, callback) {
 }
 
 function getPacificTimeHour(date) {
+  console.log(date);
+  console.log((date.getHours() + 16) % 24);
   return (date.getHours() + 16) % 24;
 }
 
