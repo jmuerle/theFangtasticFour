@@ -77,7 +77,7 @@ app.get('/', function(request, response) {
         return {name: row.person_editing_name, value: row.num_chars};
       }
       pushAward({
-        name: 'Tolkien Award',
+        name: 'Tolkien',
         trophySrc: '/images/tolkienaward.png',
         rankings: result.rows.slice(0, numRanks).map(createRanking),
         description: 'For Longest Comment Made On A Case'
