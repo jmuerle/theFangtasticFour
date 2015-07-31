@@ -191,7 +191,7 @@ function addUpdateToDb(client, caseObj, caseArgs, callback) {
 
 function toTimeString(date) {
   var timeString = date.toTimeString();
-  return timeString.slice(0, timeString.length - 12);
+  return timeString.slice(0, timeString.length - 10);
 }
 
 function escapeQuotes(str) {
