@@ -26,7 +26,7 @@ app.get('/', function(request, response) {
 
 app.get('/fogbugzUpdate', function(request, response) {
   var caseArgs = request.query,
-    caseNum = parseInt(request.caseNumber),
+    caseNum = parseInt(caseArgs.caseNumber),
     client = new pg.Client(process.env.DATABASE_URL);
   client.connect(function(err) {
     client.query('SELECT * FROM cases WHERE case_number=' + caseNum, function (err, result) {
