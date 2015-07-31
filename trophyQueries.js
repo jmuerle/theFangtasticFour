@@ -56,7 +56,7 @@ function oldestBugResolved(client, callback) {
   var query = "select person_editing_name, cases.case_id, cases.creation_date AS first_creation_date from case_events " +
     "left outer join cases on (cases.case_id = case_events.case_id) " +
     "where event_type='CaseResolved' and event_time between '2015-07-30' and '2015-08-04' " +
-    "order by first_creation_date desc";
+    "order by first_creation_date asc";
   client.query(query, function (err, result) {
     console.log("oldest bug error:");
     console.log(err);
