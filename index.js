@@ -75,11 +75,13 @@ function addCaseObjToDb(client, caseObj, callback) {
 // statusName: 'Active',
 // title: 'Test Bug for Fangtastic Four'
 function addUpdateToDb(client, caseObj, caseArgs, callback) {
-  var query =
+  var eventText = caseArgs.eventText || null,
+    assignedToName = caseArgs.assignedToName || null,
+    query =
     "INSERT INTO case_events " +
-      "(case_id, person_editing_name, event_type, status_name, event_text, event_time, title, project_name) " +
-      "VALUES (" + caseObj.caseNumber + ", '" + caseArgs.personEditingName + "', '" + caseArgs.eventType + "', '" +
-        caseArgs.statusName + "', '" + caseArgs.eventText + "', '" + caseArgs.eventTime + "', '" + caseArgs.title +
+      "(case_id, person_editing_name, assigned_to_name, event_type, status_name, event_text, event_time, title, project_name) " +
+      "VALUES (" + caseObj.case_id + ", '" + caseArgs.personEditingName + "', '" + assignedToName + "', '" + caseArgs.eventType +
+        "', '" + caseArgs.statusName + "', '" + eventText + "', '" + caseArgs.eventTime + "', '" + caseArgs.title +
         "', '" + caseArgs.projectName + "')";
   console.log("going to execute query: " + query);
   client.query(query, function (err) {
