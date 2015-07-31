@@ -1,4 +1,5 @@
 var parseString = require('xml2js').parseString;
+var https = require('https');
 
 function getFogbugzCase(caseNum, callback) {
   var txt = "";

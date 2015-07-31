@@ -8,9 +8,10 @@
   },
   "dependencies": {
     "ejs": "^2.3.1",
+    "express": "~4.9.x",
+    "https": "^1.0.0",
     "pg": "~4.4.0",
-    "xml2js": "^0.4.9",
-    "express": "~4.9.x"
+    "xml2js": "^0.4.9"
   },
   "engines": {
     "node": "0.12.2"
@@ -25,6 +26,5 @@
     "express"
   ],
   "license": "MIT",
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }
