@@ -51,7 +51,7 @@ app.get('/fogbugzUpdate', function(request, response) {
         break;
     }
   
-  }
+  });
   response.end("Thanks");
 });
 
