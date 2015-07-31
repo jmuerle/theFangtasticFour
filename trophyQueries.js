@@ -53,7 +53,7 @@ function oldestBugResolved(client, callback) {
 }
 
 function getPacificTimeHour(date) {
-  return (data.getHours() + 16) % 24;
+  return (date.getHours() + 16) % 24;
 }
 
 function earliestActivity(client, callback) {
