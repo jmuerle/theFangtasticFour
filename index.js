@@ -77,15 +77,16 @@ app.get('/', function(request, response) {
         return {name: row.person_editing_name, value: row.num_chars};
       }
       pushAward({
-        name: 'Tolkien Award',
+        name: 'Tolkien',
         trophySrc: '/images/tolkienaward.png',
         rankings: result.rows.slice(0, numRanks).map(createRanking),
         description: 'For Longest Comment Made On A Case'
       });
     });
     trophyQueries.oldestBugResolved(client, function (result) {
+      var date;
       var createRanking = function (row) {
-        return {name: row.person_editing_name, value: row.first_creation_date};
+        return {name: row.person_editing_name, value: row.first_creation_date.toDateString()};
       }
       pushAward({
         name: 'When Pigs Fly',
