@@ -52,6 +52,10 @@ function oldestBugResolved(client, callback) {
   });
 }
 
+function getPacificTimeHour(date) {
+  return (data.getHours() + 16) % 24;
+}
+
 function earliestActivity(client, callback) {
   var getAllDateQuery = "select person_editing_name, event_time from case_events " +
     "where event_time between '2015-07-30' and '2015-08-04'";
@@ -61,12 +65,10 @@ function earliestActivity(client, callback) {
     if (err) { console.log(err); }
     var rows = result.rows;
 
-    rows = rows.filter(function(row) {
-      var time = row.event_time;
-      console.log('logging times');
-      console.log(time);
-      console.log(time.getHours());
+    rows = rows.filter(function(row) { getPacificTimeHour(row.event_time); });
 
+    rows.sort(function(row1, row2) {
+      return getPacificTimeHour(row1.event_time) - getPacificTimeHour(row2.event_time);
     });
 
     callback(rows);
