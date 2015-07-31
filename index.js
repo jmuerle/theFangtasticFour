@@ -103,7 +103,9 @@ app.get('/', function(request, response) {
       pushAward({
         name: 'Early bird',
         trophySrc: '/images/earlybirdaward.png',
-        rankings: rows.map(function(row) { return { name: row.person_editing_name, value: row.event_time}; }),
+        rankings: rows.map(function(row) { 
+          return { name: row.person_editing_name, value: toTimeString(row.event_time)};
+        }),
         description: 'For Earliest Activity'
       });
     });
@@ -111,11 +113,14 @@ app.get('/', function(request, response) {
       var rows = result.rows.length === 0 
         ? [{person_editing_name: 'James Muerle', event_time: '2:00 am' }]
         : result.rows.slice(0, numRanks);
-
+      
       pushAward({
         name: 'Night owl',
         trophySrc: '/images/nightowlaward.png',
-        rankings: rows.map(function(row) { return { name: row.person_editing_name, value: row.event_time}; }),
+        rankings: rows.map(function(row) { 
+          var timeString = row.event_time.toTimeString();
+          return { name: row.person_editing_name, value: timeString.slice(0, timeString.length - 4)}; // HACK
+        }),
         description: 'For Latest Activity'
       });
     });
@@ -183,6 +188,11 @@ function addUpdateToDb(client, caseObj, caseArgs, callback) {
   client.query(query, function (err) {
     callback();
   });
+}
+
+function toTimeString(date) {
+  var timeString = date.toTimeString();
+  return timeString.slice(0, timeString.length - 4);
 }
 
 function escapeQuotes(str) {
