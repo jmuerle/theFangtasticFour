@@ -13,7 +13,7 @@ app.get('/', function(request, response) {
   response.render('pages/index');
 });
 
-app.post('/', function(request, response) {
+app.get('/fogbugzUpdate', function(request, response) {
   console.log(request);
 });
 
