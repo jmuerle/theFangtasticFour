@@ -64,9 +64,29 @@ function oldestBugResolved(client, callback) {
   });
 }
 
+function earliestActivity(client, callback) {
+  var getAllDateQuery = "select person_editing_name, event_time from case_events " +
+    "where event_time between '2015-07-30' and '2015-08-04'";
+
+  client.query(getAllDateQuery, function(err, result) {
+    var rows = result.rows;
+
+    rows = rows.filter(function(row) {
+      console.log(row.event_time);
+      console.log(typeof row.event_time);
+      var time = new Date(row.event_time);
+      console.log(time);
+    });
+
+    callback(rows);
+  });
+}
+
 exports.mostBugsResolved = mostBugsResolved;
 exports.mostBugsOpened = mostBugsOpened;
 exports.mostBugsReopened = mostBugsReopened;
 exports.mostComments = mostComments;
 exports.longestComment = longestComment;
 exports.oldestBugResolved = oldestBugResolved;
+exports.earliestActivity = earliestActivity;
+
