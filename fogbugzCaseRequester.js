@@ -23,8 +23,12 @@ function getFogbugzCase(caseNum, callback) {
 function getCaseInFlatFormat(caseObj) {
   return {
     caseNumber: parseInt(caseObj["$"].ixBug),
-    dateOpened: new Date(Date.parse(caseObj.dtOpened[0])),
+    dateOpened: toMySQLDateFormat(new Date(Date.parse(caseObj.dtOpened[0]))),
   };
+}
+
+function toMySQLDateFormat(date) {
+  return date.toISOString().slice(0, 19).replace('T', ' ');
 }
 
 exports.getFogbugzCase = getFogbugzCase;
