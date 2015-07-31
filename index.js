@@ -80,9 +80,9 @@ function addUpdateToDb(client, caseObj, caseArgs, callback) {
     query =
     "INSERT INTO case_events " +
       "(case_id, person_editing_name, assigned_to_name, event_type, status_name, event_text, event_time, title, project_name) " +
-      "VALUES (" + caseObj.case_id + ", '" + caseArgs.personEditingName + "', '" + assignedToName + "', '" + caseArgs.eventType +
-        "', '" + caseArgs.statusName + "', '" + eventText + "', '" + caseArgs.eventTime + "', '" + caseArgs.title +
-        "', '" + caseArgs.projectName + "')";
+      "VALUES (" + caseObj.case_id + ", '" + escapeQuotes(caseArgs.personEditingName) + "', '" + escapeQuotes(assignedToName) +
+        "', '" + caseArgs.eventType + "', '" + caseArgs.statusName + "', '" + escapeQuotes(eventText) + "', '" + caseArgs.eventTime +
+        "', '" + escapeQuotes(caseArgs.title) + "', '" + escapeQuotes(caseArgs.projectName) + "')";
   console.log("going to execute query: " + query);
   client.query(query, function (err) {
     console.log("Error:");
@@ -108,6 +108,10 @@ function addUpdateToDb(client, caseObj, caseArgs, callback) {
     //     handleCaseReactivated(client, caseArgs);
     //     break;
     // }
+}
+
+function escapeQuotes(str) {
+  return str.replace(/'/g, "\\'");
 }
 
 // function handleCaseEdited(client, caseArgs) {
