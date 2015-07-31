@@ -11,16 +11,16 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 app.get('/', function(request, response) {
-  response.render('pages/index');
-//    awards: [
-//      {
-//        name: 'Bug sleuth',
-//        trophySrc: 'images/bugsleuth.png',
-//        winnerName: 'Sherlock Holmes',
-//        description: 'Most bugs fixed'
-//      }
-//    ]
-//  });
+  response.render('pages/index', {
+    awards: [
+      {
+        name: 'Bug sleuth',
+        trophySrc: 'images/bugsleuth.png',
+        winnerName: 'Sherlock Holmes',
+        description: 'Most bugs fixed'
+      }
+    ]
+  });
 });
 
 app.get('/fogbugzUpdate', function(request, response) {
