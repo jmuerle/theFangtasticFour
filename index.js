@@ -13,7 +13,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 app.get('/', function(request, response) {
-  var numQueries = 7,
+  var numQueries = 8,
     currQueriesComplete = 0,
     numRanks = 5,
     client = new pg.Client(process.env.DATABASE_URL),
@@ -105,6 +105,18 @@ app.get('/', function(request, response) {
         trophySrc: '/images/earlybirdaward.png',
         rankings: rows.map(function(row) { return { name: row.person_editing_name, value: row.event_time}; }),
         description: 'For Earliest Activity'
+      });
+    });
+    trophyQueries.latestActivity(client, function (result) {
+      var rows = !result.rows || result.rows.length === 0 
+        ? [{person_editing_name: 'James Muerle', event_time: '2:00 am' }]
+        : result.rows.slice(0, numRanks);
+
+      pushAward({
+        name: 'Early bird',
+        trophySrc: '/images/nightowlaward.png',
+        rankings: rows.map(function(row) { return { name: row.person_editing_name, value: row.event_time}; }),
+        description: 'For Latest Activity'
       });
     });
   });

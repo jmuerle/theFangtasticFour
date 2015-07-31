@@ -75,6 +75,25 @@ function earliestActivity(client, callback) {
   });
 }
 
+function latestActivity(client, callback) {
+  var getAllDateQuery = "select person_editing_name, event_time from case_events " +
+    "where event_time between '2015-07-30' and '2015-08-04'";
+
+  client.query(getAllDateQuery, function(err, result) {
+
+    if (err) { console.log(err); }
+    var rows = result.rows;
+
+    rows = rows.filter(function(row) { getPacificTimeHour(row.event_time); });
+
+    rows.sort(function(row1, row2) {
+      return getPacificTimeHour(row2.event_time) - getPacificTimeHour(row1.event_time);
+    });
+
+    callback(rows);
+  });
+}
+
 exports.mostBugsResolved = mostBugsResolved;
 exports.mostBugsOpened = mostBugsOpened;
 exports.mostBugsReopened = mostBugsReopened;
@@ -82,4 +101,5 @@ exports.mostComments = mostComments;
 exports.longestComment = longestComment;
 exports.oldestBugResolved = oldestBugResolved;
 exports.earliestActivity = earliestActivity;
+exports.latestActivity = latestActivity;
 
