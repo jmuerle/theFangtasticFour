@@ -35,7 +35,7 @@ app.get('/', function(request, response) {
       pushAward({
         name: 'Captain Kiwi',
         trophySrc: '/images/captainkiwiaward.png',
-        rankings: result.rows.slice(0, numRanks).map(createRanking),
+        rankings: dedupe(result.rows).slice(0, numRanks).map(createRanking),
         description: 'For Most Cases Fixed'
       });
     });
@@ -46,7 +46,7 @@ app.get('/', function(request, response) {
       pushAward({
         name: 'Bug Sleuth',
         trophySrc: '/images/bugsleuth.png',
-        rankings: result.rows.slice(0, numRanks).map(createRanking),
+        rankings: dedupe(result.rows).slice(0, numRanks).map(createRanking),
         description: 'For Most Cases Opened'
       });
     });
@@ -57,7 +57,7 @@ app.get('/', function(request, response) {
       pushAward({
         name: 'Checkin\' it Twice',
         trophySrc: '/images/listaward.png',
-        rankings: result.rows.slice(0, numRanks).map(createRanking),
+        rankings: dedupe(result.rows).slice(0, numRanks).map(createRanking),
         description: 'For Most Cases Reopened'
       });
     });
@@ -68,7 +68,7 @@ app.get('/', function(request, response) {
       pushAward({
         name: 'Busy Bee',
         trophySrc: '/images/busybeeaward.png',
-        rankings: result.rows.slice(0, numRanks).map(createRanking),
+        rankings: dedupe(result.rows).slice(0, numRanks).map(createRanking),
         description: 'For Most Comments Made On Cases'
       });
     });
@@ -79,7 +79,7 @@ app.get('/', function(request, response) {
       pushAward({
         name: 'Tolkien',
         trophySrc: '/images/tolkienaward.png',
-        rankings: result.rows.slice(0, numRanks).map(createRanking),
+        rankings: dedupe(result.rows).slice(0, numRanks).map(createRanking),
         description: 'For Longest Comment Made On A Case'
       });
     });
@@ -91,14 +91,14 @@ app.get('/', function(request, response) {
       pushAward({
         name: 'When Pigs Fly',
         trophySrc: '/images/flyingpigaward.png',
-        rankings: result.rows.slice(0, numRanks).map(createRanking),
+        rankings: dedupe(result.rows).slice(0, numRanks).map(createRanking),
         description: 'For Oldest Case Fixed'
       });
     });
     trophyQueries.earliestActivity(client, function (result) {
       var rows = !result.rows || result.rows.length === 0 
         ? [{person_editing_name: 'James Muerle', event_time: new Date() }]
-        : result.rows.slice(0, numRanks);
+        : dedupe(result.rows).slice(0, numRanks);
 
       pushAward({
         name: 'Early bird',
@@ -112,7 +112,7 @@ app.get('/', function(request, response) {
     trophyQueries.latestActivity(client, function (result) {
       var rows = result.rows.length === 0 
         ? [{person_editing_name: 'James Muerle', event_time: '2:00 am' }]
-        : result.rows.slice(0, numRanks);
+        : dedupe(result.rows).slice(0, numRanks);
       
       pushAward({
         name: 'Night owl',
@@ -187,6 +187,21 @@ function addUpdateToDb(client, caseObj, caseArgs, callback) {
   client.query(query, function (err) {
     callback();
   });
+}
+
+function dedupe(a) {
+  var nameSet = {};
+  var unique = [];
+  a.forEach(function(x) {
+    if (nameSet.hasOwnProperty(x.name)) { 
+      continue; 
+    }
+    else {
+      unique.push(x);
+      nameSet[x.name] = true;
+    }
+  });
+  return unique;
 }
 
 function toTimeString(date) {

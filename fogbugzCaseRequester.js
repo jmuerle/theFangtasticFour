@@ -3,7 +3,7 @@ var https = require('https');
 
 function getFogbugzCase(caseNum, callback) {
   var txt = "";
-  https.get("https://ixl.fogbugz.com/api.asp?token=vfbn807fh1k1bnvkj6kubnsb0ra0vb&cmd=search&q=" + caseNum + "&cols=dtOpened", function(res) {
+  https.get("https://ixl.fogbugz.com/api.asp?token=pj3ag36sfumcqg6l0923clsig05mrm&cmd=search&q=" + caseNum + "&cols=dtOpened", function(res) {
     res.setEncoding('utf8');
     // Put together the data from the chunks.
     res.on("data", function(chunk) {
