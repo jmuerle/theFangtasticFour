@@ -30,8 +30,6 @@ app.get('/fogbugzUpdate', function(request, response) {
     client = new pg.Client(process.env.DATABASE_URL);
   client.connect(function(err) {
     client.query('SELECT * FROM cases WHERE case_number=' + caseNum, function (err, result) {
-      console.log("Error: ");
-      console.log(err);
       if (result.rows.length === 0) {
         caseRequester.getFogbugzCase(caseNum, function (retrievedCaseObj) {
           addCaseObjToDb(client, retrievedCaseObj, function (caseObj) {
@@ -53,7 +51,9 @@ app.get('/fogbugzUpdate', function(request, response) {
 });
 
 function addCaseObjToDb(client, caseObj, callback) {
-  client.query('INSERT INTO cases (case_number, creation_date) VALUES (' + caseObj.caseNumber + ', ' + caseObj.dateOpened + ')', function (result) {
+  client.query('INSERT INTO cases (case_number, creation_date) VALUES (' + caseObj.caseNumber + ', ' + caseObj.dateOpened + ')', function (err, result) {
+    console.log("Error: ");
+    console.log(err);
     console.log(result.rows);
     // Make the callback
   });
