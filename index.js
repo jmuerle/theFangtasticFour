@@ -97,8 +97,8 @@ app.get('/', function(request, response) {
     });
     trophyQueries.earliestActivity(client, function (result) {
       var rows = !result.rows || result.rows.length === 0 
-        ? [{name: 'James Muerle', value: '6:00 am' }]
-        : rows;
+        ? [{person_editing_name: 'James Muerle', event_time: '6:00 am' }]
+        : result.rows.slice(0, numRanks);
 
       pushAward({
         name: 'Early bird',
