@@ -193,10 +193,7 @@ function dedupe(a) {
   var nameSet = {};
   var unique = [];
   a.forEach(function(x) {
-    if (nameSet.hasOwnProperty(x.name)) { 
-      continue; 
-    }
-    else {
+    if (!nameSet.hasOwnProperty(x.name)) { 
       unique.push(x);
       nameSet[x.name] = true;
     }
