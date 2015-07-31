@@ -111,7 +111,7 @@ function addUpdateToDb(client, caseObj, caseArgs, callback) {
 }
 
 function escapeQuotes(str) {
-  return str.replace(/'/g, "\\'");
+  return str.replace(/'/g, "''");
 }
 
 // function handleCaseEdited(client, caseArgs) {
