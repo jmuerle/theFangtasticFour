@@ -93,7 +93,7 @@ function latestActivity(client, callback) {
       var h1 = getPacificTimeHour(row1.event_time);
       var h2 = getPacificTimeHour(row2.event_time);
 
-      return ((h2 + 19) % 24) - ((h1 + 19 % 24);
+      return ((h2 + 19) % 24) - ((h1 + 19) % 24);
     });
 
     callback(rows);
