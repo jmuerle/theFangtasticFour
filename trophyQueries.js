@@ -71,7 +71,7 @@ function earliestActivity(client, callback) {
       return getPacificTimeHour(row1.event_time) - getPacificTimeHour(row2.event_time);
     });
 
-    callback(rows);
+    callback({rows: rows});
   });
 }
 
@@ -101,7 +101,7 @@ function latestActivity(client, callback) {
       return ((h2 + 19) % 24) - ((h1 + 19) % 24);
     });
 
-    callback(rows);
+    callback({rows: rows});
   });
 }
 
