@@ -12,10 +12,11 @@
       <div class='awardInfo'>
         <div class='awardHeld'>The <%= award.name %> Award Currently Held By:</div>
         <div class='awardWinnerName'><%= award.rankings[0].name %></div>
-        <div class='awardDescription'><%= award.description %>: <%= award.rankings[0].value %></div>
+        <div class='awardDescription'><%= award.description %>:</div>
+        <div class="awardWinnerValue"><%= award.rankings[0].value %></div>
       </div>
       <div class='leaderBoardContainer'>
-        <div class='title'>Leader Board</div>
+        <div class='title'>Leaderboard</div>
         <div class='leaderBoard'>
           <div class='tableRow'>
             <div class='tableCell colHeader'>Name</div>

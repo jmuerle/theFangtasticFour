@@ -35,7 +35,7 @@ app.get('/', function(request, response) {
       pushAward({
         name: 'Captain Kiwi',
         trophySrc: '/images/captainkiwiaward.png',
-        rankings: result.rows.slice(0, numRanks).map(createRanking),
+        rankings: dedupe(result.rows.map(createRanking)).slice(0, numRanks),
         description: 'For Most Cases Fixed'
       });
     });
@@ -46,7 +46,7 @@ app.get('/', function(request, response) {
       pushAward({
         name: 'Bug Sleuth',
         trophySrc: '/images/bugsleuth.png',
-        rankings: result.rows.slice(0, numRanks).map(createRanking),
+        rankings: dedupe(result.rows.map(createRanking)).slice(0, numRanks),
         description: 'For Most Cases Opened'
       });
     });
@@ -55,9 +55,9 @@ app.get('/', function(request, response) {
         return {name: row.person_editing_name, value: row.bugs_reopened};
       }
       pushAward({
-        name: 'Checkin\' it Twice',
+        name: 'Checkin\' It Twice',
         trophySrc: '/images/listaward.png',
-        rankings: result.rows.slice(0, numRanks).map(createRanking),
+        rankings: dedupe(result.rows.map(createRanking)).slice(0, numRanks),
         description: 'For Most Cases Reopened'
       });
     });
@@ -68,18 +68,18 @@ app.get('/', function(request, response) {
       pushAward({
         name: 'Busy Bee',
         trophySrc: '/images/busybeeaward.png',
-        rankings: result.rows.slice(0, numRanks).map(createRanking),
+        rankings: dedupe(result.rows.map(createRanking)).slice(0, numRanks),
         description: 'For Most Comments Made On Cases'
       });
     });
     trophyQueries.longestComment(client, function (result) {
       var createRanking = function (row) {
-        return {name: row.person_editing_name, value: row.num_chars};
+        return {name: row.person_editing_name, value: "case: " + row.case_number + "; length: " + row.num_chars};
       }
       pushAward({
         name: 'Tolkien',
         trophySrc: '/images/tolkienaward.png',
-        rankings: result.rows.slice(0, numRanks).map(createRanking),
+        rankings: dedupe(result.rows.map(createRanking)).slice(0, numRanks),
         description: 'For Longest Comment Made On A Case'
       });
     });
@@ -91,35 +91,35 @@ app.get('/', function(request, response) {
       pushAward({
         name: 'When Pigs Fly',
         trophySrc: '/images/flyingpigaward.png',
-        rankings: result.rows.slice(0, numRanks).map(createRanking),
+        rankings: dedupe(result.rows.map(createRanking)).slice(0, numRanks),
         description: 'For Oldest Case Fixed'
       });
     });
     trophyQueries.earliestActivity(client, function (result) {
       var rows = !result.rows || result.rows.length === 0 
         ? [{person_editing_name: 'James Muerle', event_time: new Date() }]
-        : result.rows.slice(0, numRanks);
-
+        : dedupe(result.rows).slice(0, numRanks);
+      var createRanking = function (row) {
+        return { name: row.person_editing_name, value: toTimeString(row.event_time)};
+      }
       pushAward({
-        name: 'Early bird',
+        name: 'Early Bird',
         trophySrc: '/images/earlybirdaward.png',
-        rankings: rows.map(function(row) { 
-          return { name: row.person_editing_name, value: toTimeString(row.event_time)};
-        }),
+        rankings: dedupe(result.rows.map(createRanking)).slice(0, numRanks),
         description: 'For Earliest Activity'
       });
     });
     trophyQueries.latestActivity(client, function (result) {
       var rows = result.rows.length === 0 
         ? [{person_editing_name: 'James Muerle', event_time: '2:00 am' }]
-        : result.rows.slice(0, numRanks);
-      
+        : dedupe(result.rows).slice(0, numRanks);
+      var createRanking = function (row) {
+        return { name: row.person_editing_name, value: toTimeString(row.event_time)};
+      }
       pushAward({
-        name: 'Night owl',
+        name: 'Night Owl',
         trophySrc: '/images/nightowlaward.png',
-        rankings: rows.map(function(row) { 
-          return { name: row.person_editing_name, value: toTimeString(row.event_time)}; // HACK
-        }),
+        rankings: dedupe(result.rows.map(createRanking)).slice(0, numRanks),
         description: 'For Latest Activity'
       });
     });
@@ -189,13 +189,25 @@ function addUpdateToDb(client, caseObj, caseArgs, callback) {
   });
 }
 
+function dedupe(a) {
+  var nameSet = {};
+  var unique = [];
+  a.forEach(function(x) {
+    if (!nameSet.hasOwnProperty(x.name)) { 
+      unique.push(x);
+      nameSet[x.name] = true;
+    }
+  });
+  return unique;
+}
+
 function toTimeString(date) {
   var timeString = date.toTimeString();
   return timeString.slice(0, timeString.length - 11);
 }
 
 function escapeQuotes(str) {
-  return str.replace(/'/g, "''");
+  return str ? str.replace(/'/g, "''") : str;
 }
 
 app.listen(app.get('port'), function() {

@@ -35,7 +35,8 @@ function mostComments(client, callback) {
 }
 
 function longestComment(client, callback) {
-  var query = "select event_text, person_editing_name, length(event_text) AS num_chars from case_events " +
+  var query = "select event_text, person_editing_name, length(event_text) AS num_chars, cases.case_number from case_events " +
+    "left outer join cases on (cases.case_id = case_events.case_id) " +
     "order by length(event_text) desc";
   client.query(query, function (err, result) {
     callback(result);
@@ -53,7 +54,10 @@ function oldestBugResolved(client, callback) {
 }
 
 function getPacificTimeHour(date) {
-  return (date.getHours() + 16) % 24;
+  return {
+    hour: (date.getHours() + 16) % 24,
+    tiebreaker: date.getMinutes() * 60 + date.getSeconds()
+  };
 }
 
 function earliestActivity(client, callback) {
@@ -65,10 +69,18 @@ function earliestActivity(client, callback) {
     if (err) { console.log(err); }
     var rows = result.rows;
 
-    rows = rows.filter(function(row) { return getPacificTimeHour(row.event_time) >= 5; });
+    rows = rows.filter(function(row) { return getPacificTimeHour(row.event_time).hour >= 5; });
 
     rows.sort(function(row1, row2) {
-      return getPacificTimeHour(row1.event_time) - getPacificTimeHour(row2.event_time);
+      var h1 = getPacificTimeHour(row1.event_time),
+        h2 = getPacificTimeHour(row2.event_time),
+        diff = h1.hour - h2.hour;
+      if (diff === 0) {
+        return h1.tiebreaker - h2.tiebreaker;
+      }
+      else {
+        return diff;
+      }
     });
 
     callback({rows: rows});
@@ -84,21 +96,23 @@ function latestActivity(client, callback) {
     if (err) { console.log(err); }
     var rows = result.rows;
 
-    console.log(rows);
-    console.log(rows.map(function(x) { return getPacificTimeHour(x.event_time); }));
-
     rows = rows.filter(function(row) { 
-      var h = getPacificTimeHour(row.event_time) 
+      var h = getPacificTimeHour(row.event_time).hour;
       return h >= 18 || h < 5;
     });
 
     console.log(rows);
 
     rows.sort(function(row1, row2) {
-      var h1 = getPacificTimeHour(row1.event_time);
-      var h2 = getPacificTimeHour(row2.event_time);
-
-      return ((h2 + 19) % 24) - ((h1 + 19) % 24);
+      var h1 = getPacificTimeHour(row1.event_time),
+        h2 = getPacificTimeHour(row2.event_time),
+        diff = ((h2.hour + 19) % 24) - ((h1.hour + 19) % 24);
+      if (diff === 0) {
+        return h2.tiebreaker - h1.tiebreaker;
+      }
+      else {
+        return diff;
+      }
     });
 
     callback({rows: rows});

@@ -11,10 +11,9 @@ h1 {
   background-size: 200px 200px;
   background-repeat: no-repeat;
   background-position: center;
-  width: 200px;
+  min-width: 300px;
   height: 200px;
   margin-top: 30px;
-  min-width: 200px;
 }
 
 .awardContainer {
@@ -46,10 +45,14 @@ h1 {
   font-size: 20px;
 }
 
+.awardWinnerValue {
+  font-weight: bold;
+}
+
 .leaderBoardContainer {
   border: 10px solid #8AC007;
   margin-left: 20px;
-  min-width: 600px;
+  min-width: 497px;
   margin-top: 30px;
 }
 
