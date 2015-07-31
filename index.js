@@ -30,7 +30,6 @@ app.get('/fogbugzUpdate', function(request, response) {
     client = new pg.Client(process.env.DATABASE_URL);
   client.connect(function(err) {
     client.query('SELECT * FROM cases WHERE case_number=' + caseNum, function (err, result) {
-      done();
       if (result.rows.length === 0) {
         caseRequester.getFogbugzCase(caseNum, function (retrievedCaseObj) {
           addCaseObjToDb(client, retrievedCaseObj, function (caseObj) {
