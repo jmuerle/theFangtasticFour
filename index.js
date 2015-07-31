@@ -13,7 +13,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 app.get('/', function(request, response) {
-  var numQueries = 6,
+  var numQueries = 7,
     currQueriesComplete = 0,
     client = new pg.Client(process.env.DATABASE_URL),
     awards = [];
@@ -77,8 +77,17 @@ app.get('/', function(request, response) {
       pushAward({
         name: 'When Pigs Fly',
         trophySrc: '/images/flyingpigaward.png',
-        rankings: [{name: topRow.person_editing_name, value: topRow.creation_date}],
+        rankings: [{name: topRow.person_editing_name, value: topRow.first_creation_date}],
         description: 'For Oldest Case Fixed'
+      });
+    });
+    trophyQueries.earliestActivity(client, function (result) {
+      var topRow = result.rows[0];
+      pushAward({
+        name: 'Early bird',
+        trophySrc: '/images/earlybirdaward.png',
+        rankings: [{name: topRow.person_editing_name, value: topRow.event_time}],
+        description: 'For Earliest Activity'
       });
     });
   });
