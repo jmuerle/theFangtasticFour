@@ -15,7 +15,7 @@ app.get('/', function(request, response) {
     awards: [
       {
         name: 'Bug sleuth',
-        trophySrc: 'TODO',
+        trophySrc: 'images/bugsleuth.png',
         winnerName: 'Sherlock Holmes',
         description: 'Most bugs
       }
