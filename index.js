@@ -51,12 +51,15 @@ app.get('/fogbugzUpdate', function(request, response) {
 });
 
 function addCaseObjToDb(client, caseObj, callback) {
-  client.query('INSERT INTO cases (case_number, creation_date) VALUES (' + caseObj.caseNumber + ', ' + caseObj.dateOpened + ')', function (err, result) {
-    console.log("Error: ");
-    console.log(err);
-    console.log(result.rows);
-    // Make the callback
-  });
+  client.query(
+    'INSERT INTO cases (case_number, creation_date) VALUES (' + caseObj.caseNumber + ', \'' + caseObj.dateOpened + '\')',
+    function (err, result) {
+      console.log("Error: ");
+      console.log(err);
+      console.log(result.rows);
+      // Make the callback
+    }
+  );
 }
 
 function addUpdateToDb(client, caseObj, caseArgs, callback) {
