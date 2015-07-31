@@ -3,6 +3,8 @@ function mostBugsResolved(client, callback) {
     "where event_type='CaseResolved' and event_time between '2015-07-30' and '2015-08-04' " +
     "group by person_editing_name order by count desc";
   client.query(query, function (err, result) {
+    console.log("most bugs resolved error:");
+    console.log(err);
     callback(result);
   });
 }
@@ -12,6 +14,8 @@ function mostBugsOpened(client, callback) {
     "where event_type='CaseAssigned' and event_time between '2015-07-30' and '2015-08-04' " +
     "group by person_editing_name order by count desc";
   client.query(query, function (err, result) {
+    console.log("most bugs opened error:");
+    console.log(err);
     callback(result);
   });
 }
@@ -21,6 +25,8 @@ function mostBugsReopened(client, callback) {
     "where event_type='CaseReopened' and event_time between '2015-07-30' and '2015-08-04' " +
     "group by person_editing_name order by count desc";
   client.query(query, function (err, result) {
+    console.log("most bugs reopened error:");
+    console.log(err);
     callback(result);
   });
 }
@@ -30,6 +36,8 @@ function mostComments(client, callback) {
     "where event_type='CaseEdited' and event_text is not null and event_time between '2015-07-30' and '2015-08-04' " +
     "group by person_editing_name order by count desc";
   client.query(query, function (err, result) {
+    console.log("most comments error:");
+    console.log(err);
     callback(result);
   });
 }
@@ -38,6 +46,8 @@ function longestComment(client, callback) {
   var query = "select event_text, person_editing_name, length(event_text) AS num_chars from case_events " +
     "order by length(event_text) desc";
   client.query(query, function (err, result) {
+    console.log("longest comment error:");
+    console.log(err);
     callback(result);
   });
 }
@@ -48,6 +58,8 @@ function oldestBugResolved(client, callback) {
     "where event_type='CaseResolved' and event_time between '2015-07-30' and '2015-08-04' " +
     "order by cases.creation_date desc";
   client.query(query, function (err, result) {
+    console.log("oldest bug error:");
+    console.log(err);
     callback(result);
   });
 }
