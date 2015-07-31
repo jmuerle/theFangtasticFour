@@ -69,6 +69,8 @@ function earliestActivity(client, callback) {
     "where event_time between '2015-07-30' and '2015-08-04'";
 
   client.query(getAllDateQuery, function(err, result) {
+
+    if (err) { console.log(err); }
     var rows = result.rows;
 
     rows = rows.filter(function(row) {
