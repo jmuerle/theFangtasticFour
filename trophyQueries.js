@@ -71,6 +71,8 @@ function earliestActivity(client, callback) {
       return getPacificTimeHour(row1.event_time) - getPacificTimeHour(row2.event_time);
     });
 
+    console.log(rows);
+
     callback(rows);
   });
 }
