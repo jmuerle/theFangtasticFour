@@ -108,7 +108,7 @@ app.get('/', function(request, response) {
       });
     });
     trophyQueries.latestActivity(client, function (result) {
-      var rows = !result.rows || result.rows.length === 0 
+      var rows = result.rows.length === 0 
         ? [{person_editing_name: 'James Muerle', event_time: '2:00 am' }]
         : result.rows.slice(0, numRanks);
 

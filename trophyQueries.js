@@ -84,10 +84,15 @@ function latestActivity(client, callback) {
     if (err) { console.log(err); }
     var rows = result.rows;
 
+    console.log(rows);
+    console.log(rows.map(function(x) { return getPacificTimeHour(x.event_time); }));
+
     rows = rows.filter(function(row) { 
       var h = getPacificTimeHour(row.event_time) 
       return h >= 18 || h < 5;
     });
+
+    console.log(rows);
 
     rows.sort(function(row1, row2) {
       var h1 = getPacificTimeHour(row1.event_time);
