@@ -21,7 +21,7 @@ function getFogbugzCase(caseNum, callback) {
 
 function getCaseInFlatFormat(caseObj) {
   return {
-    caseNumber: caseObj["$"].ixBug,
+    caseNumber: parseInt(caseObj["$"].ixBug),
     dateOpened: new Date(Date.parse(caseObj.dtOpened[0])),
   };
 }

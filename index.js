@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var pg = require('pg');
+var caseRequester = require("fogbugzCaseRequester");
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -24,69 +25,102 @@ app.get('/', function(request, response) {
 });
 
 app.get('/fogbugzUpdate', function(request, response) {
-  pg.connect(process.env.DATABASE_URL, function(err, client) {
-    var query = client.query('SELECT * FROM your_table');
-
-    query.on('row', function(row) {
-      console.log(JSON.stringify(row));
+  var caseArgs = request.query,
+    caseNum = parseInt(request.caseNumber),
+    client = new pg.Client(process.env.DATABASE_URL);
+  client.connect(function(err) {
+    client.query('SELECT * FROM cases WHERE case_number=' + caseNum, function (err, result) {
+      done();
+      if (result.rows.length === 0) {
+        caseRequester.getFogbugzCase(caseNum, function (retrievedCaseObj) {
+          addCaseObjToDb(client, retrievedCaseObj, function (caseObj) {
+            addUpdateToDb(client, caseObj, caseArgs, function () {
+              client.end();
+            });
+          });
+        });
+      }
+      else {
+        caseObj = result.rows[0];
+        addUpdateToDb(client, caseObj, caseArgs, function () {
+          client.end();
+        });
+      }
     });
-    switch (request.query.eventType) {
-      case "CaseEdited":
-        handleCaseEdited(request.query);
-        break;
-      case "CaseAssigned":
-        handleCaseAssigned(request.query);
-        break;
-      case "CaseResolved":
-        handleCaseResolved(request.query);
-        break;
-      case "CaseClosed":
-        handleCaseClosed(request.query);
-        break;
-      case "CaseReopened":
-        handleCaseReopened(request.query);
-        break;
-      case "CaseReactivated":
-        handleCaseReactivated(request.query);
-        break;
-    }
-  
   });
   response.end("Thanks");
 });
 
-function handleCaseEdited(reqArgsForCase) {
+function addCaseObjToDb(client, caseObj, callback) {
+  client.query('INSERT INTO cases (case_number, creation_date) VALUES (' + caseObj.caseNumber + ', ' + caseObj.dateOpened + ')', function (result) {
+    console.log(result.rows);
+    // Make the callback
+  });
+}
+
+function addUpdateToDb(client, caseObj, caseArgs, callback) {
+    switch (caseArgs.eventType) {
+      case "CaseEdited":
+        handleCaseEdited(client, caseArgs);
+        break;
+      case "CaseAssigned":
+        handleCaseAssigned(client, caseArgs);
+        break;
+      case "CaseResolved":
+        handleCaseResolved(client, caseArgs);
+        break;
+      case "CaseClosed":
+        handleCaseClosed(client, caseArgs);
+        break;
+      case "CaseReopened":
+        handleCaseReopened(client, caseArgs);
+        break;
+      case "CaseReactivated":
+        handleCaseReactivated(client, caseArgs);
+        break;
+    }
+}
+
+// assignedToName: 'Kevin O\'Connor',
+// caseNumber: '74770',
+// eventText: '<p>\r\n\tre-opening</p>\r\n',
+// eventTime: '2015-07-31 01:20:05Z',
+// eventType: 'CaseReopened',
+// personEditingName: 'Kevin O\'Connor',
+// projectName: 'Tools & Services',
+// statusName: 'Active',
+// title: 'Test Bug for Fangtastic Four'
+function handleCaseEdited(client, caseArgs) {
   console.log("case edited");
   console.log(reqArgsForCase);
 }
 
-function handleCaseAssigned(reqArgsForCase) {
+function handleCaseAssigned(client, caseArgs) {
   console.log("case assigned");
   console.log(reqArgsForCase);
 }
 
-function handleCaseResolved(reqArgsForCase) {
+function handleCaseResolved(client, caseArgs) {
   console.log("case resolved");
   console.log(reqArgsForCase);
 
 }
 
-function handleCaseClosed(reqArgsForCase) {
+function handleCaseClosed(client, caseArgs) {
   console.log("case closed");
   console.log(reqArgsForCase);
 
 }
 
-function handleCaseReopened(reqArgsForCase) {
+function handleCaseReopened(client, caseArgs) {
   console.log("case reopened");
   console.log(reqArgsForCase);
 
 }
 
-function handleCaseReactivated(reqArgsForCase) {
+function handleCaseReactivated(client, caseArgs) {
   console.log("case reactivated");
   console.log(reqArgsForCase);
-
 }
 
 app.listen(app.get('port'), function() {
