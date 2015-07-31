@@ -84,8 +84,9 @@ app.get('/', function(request, response) {
       });
     });
     trophyQueries.oldestBugResolved(client, function (result) {
+      var date;
       var createRanking = function (row) {
-        return {name: row.person_editing_name, value: row.first_creation_date};
+        return {name: row.person_editing_name, value: row.first_creation_date.toDateString()};
       }
       pushAward({
         name: 'When Pigs Fly',
