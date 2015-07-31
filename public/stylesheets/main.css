@@ -63,7 +63,7 @@ h1 {
   border: 10px solid #8AC007;
   margin-left: 20px;
   min-width: 497px;
-  margin: 20px 0;
+  margin: 30px;
 }
 
 .leaderBoard {
@@ -85,7 +85,7 @@ h1 {
   font-size: 24px;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 30px;
+  margin: 20px 0;
 } 
 
 .colHeader {
