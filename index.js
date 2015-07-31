@@ -81,6 +81,7 @@ function addUpdateToDb(client, caseObj, caseArgs, callback) {
       "VALUES (" + caseObj.caseNumber + ", '" + caseArgs.personEditingName + "', '" + caseArgs.eventType + "', '" +
         caseArgs.statusName + "', '" + caseArgs.eventText + "', '" + caseArgs.eventTime + "', '" + caseArgs.title +
         "', '" + caseArgs.projectName + "')";
+  console.log("going to execute query: " + query);
   client.query(query, function (err) {
     console.log("Error:");
     console.log(err);
