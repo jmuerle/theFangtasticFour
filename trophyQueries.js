@@ -35,7 +35,8 @@ function mostComments(client, callback) {
 }
 
 function longestComment(client, callback) {
-  var query = "select event_text, person_editing_name, length(event_text) AS num_chars, case_number from case_events " +
+  var query = "select event_text, person_editing_name, length(event_text) AS num_chars, cases.case_number from case_events " +
+    "left outer join cases on (cases.case_id = case_events.case_id) " +
     "order by length(event_text) desc";
   client.query(query, function (err, result) {
     callback(result);
