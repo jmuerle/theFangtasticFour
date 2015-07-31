@@ -3,8 +3,6 @@ function mostBugsResolved(client, callback) {
     "where event_type='CaseResolved' and event_time between '2015-07-30' and '2015-08-04' " +
     "group by person_editing_name order by bugs_resolved desc";
   client.query(query, function (err, result) {
-    console.log("most bugs resolved error:");
-    console.log(err);
     callback(result);
   });
 }
@@ -14,8 +12,6 @@ function mostBugsOpened(client, callback) {
     "where event_type='CaseAssigned' and event_time between '2015-07-30' and '2015-08-04' " +
     "group by person_editing_name order by bugs_opened desc";
   client.query(query, function (err, result) {
-    console.log("most bugs opened error:");
-    console.log(err);
     callback(result);
   });
 }
@@ -25,8 +21,6 @@ function mostBugsReopened(client, callback) {
     "where event_type='CaseReopened' and event_time between '2015-07-30' and '2015-08-04' " +
     "group by person_editing_name order by bugs_reopened desc";
   client.query(query, function (err, result) {
-    console.log("most bugs reopened error:");
-    console.log(err);
     callback(result);
   });
 }
@@ -36,8 +30,6 @@ function mostComments(client, callback) {
     "where event_type='CaseEdited' and event_text is not null and event_time between '2015-07-30' and '2015-08-04' " +
     "group by person_editing_name order by num_comments desc";
   client.query(query, function (err, result) {
-    console.log("most comments error:");
-    console.log(err);
     callback(result);
   });
 }
@@ -46,8 +38,6 @@ function longestComment(client, callback) {
   var query = "select event_text, person_editing_name, length(event_text) AS num_chars from case_events " +
     "order by length(event_text) desc";
   client.query(query, function (err, result) {
-    console.log("longest comment error:");
-    console.log(err);
     callback(result);
   });
 }
@@ -58,8 +48,6 @@ function oldestBugResolved(client, callback) {
     "where event_type='CaseResolved' and event_time between '2015-07-30' and '2015-08-04' " +
     "order by first_creation_date asc";
   client.query(query, function (err, result) {
-    console.log("oldest bug error:");
-    console.log(err);
     callback(result);
   });
 }
@@ -74,10 +62,11 @@ function earliestActivity(client, callback) {
     var rows = result.rows;
 
     rows = rows.filter(function(row) {
-      console.log(row.event_time);
-      console.log(typeof row.event_time);
-      var time = new Date(row.event_time);
+      var time = row.event_time;
+      console.log('logging times');
       console.log(time);
+      console.log(time.getHours());
+
     });
 
     callback(rows);
