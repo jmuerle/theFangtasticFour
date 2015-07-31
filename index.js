@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var pg = require('pg');
-var caseRequester = require("/fogbugzCaseRequester.js");
+var caseRequester = require("./fogbugzCaseRequester");
 
 app.set('port', (process.env.PORT || 5000));
 
