@@ -210,7 +210,7 @@ function toTimeString(date) {
 }
 
 function escapeQuotes(str) {
-  return str.replace(/'/g, "''");
+  return str ? str.replace(/'/g, "''") : str;
 }
 
 app.listen(app.get('port'), function() {
