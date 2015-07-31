@@ -53,8 +53,6 @@ function oldestBugResolved(client, callback) {
 }
 
 function getPacificTimeHour(date) {
-  console.log(date);
-  console.log((date.getHours() + 16) % 24);
   return (date.getHours() + 16) % 24;
 }
 
@@ -66,15 +64,12 @@ function earliestActivity(client, callback) {
 
     if (err) { console.log(err); }
     var rows = result.rows;
-    console.log(rows);
 
     rows = rows.filter(function(row) { getPacificTimeHour(row.event_time); });
 
     rows.sort(function(row1, row2) {
       return getPacificTimeHour(row1.event_time) - getPacificTimeHour(row2.event_time);
     });
-
-    console.log(rows);
 
     callback(rows);
   });
