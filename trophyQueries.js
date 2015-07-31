@@ -64,6 +64,7 @@ function earliestActivity(client, callback) {
 
     if (err) { console.log(err); }
     var rows = result.rows;
+    console.log(rows);
 
     rows = rows.filter(function(row) { getPacificTimeHour(row.event_time); });
 
