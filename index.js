@@ -30,26 +30,26 @@ app.get('/fogbugzUpdate', function(request, response) {
     query.on('row', function(row) {
       console.log(JSON.stringify(row));
     });
-    case (request.query.eventType) {
-    switch "CaseEdited":
-      handleCaseEdited(request.query);
-      break;
-    switch "CaseAssigned":
-      handleCaseAssigned(request.query);
-      break;
-    switch "CaseResolved":
-      handleCaseResolved(request.query);
-      break;
-    switch "CaseClosed":
-      handleCaseClosed(request.query);
-      break;
-    switch "CaseReopened":
-      handleCaseReopened(request.query);
-      break;
-    switch "CaseReactivated":
-      handleCaseReactivated(request.query);
-      break;
-  });
+    switch (request.query.eventType) {
+      case "CaseEdited":
+        handleCaseEdited(request.query);
+        break;
+      case "CaseAssigned":
+        handleCaseAssigned(request.query);
+        break;
+      case "CaseResolved":
+        handleCaseResolved(request.query);
+        break;
+      case "CaseClosed":
+        handleCaseClosed(request.query);
+        break;
+      case "CaseReopened":
+        handleCaseReopened(request.query);
+        break;
+      case "CaseReactivated":
+        handleCaseReactivated(request.query);
+        break;
+    });
   
   }
   response.end("Thanks");
