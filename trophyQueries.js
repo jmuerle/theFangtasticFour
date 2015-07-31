@@ -1,7 +1,7 @@
 function mostBugsResolved(client, callback) {
   var query = "select person_editing_name, count(*) AS bugs_resolved from case_events " +
     "where event_type='CaseResolved' and event_time between '2015-07-30' and '2015-08-04' " +
-    "group by person_editing_name order by count desc";
+    "group by person_editing_name order by bugs_resolved desc";
   client.query(query, function (err, result) {
     console.log("most bugs resolved error:");
     console.log(err);
@@ -12,7 +12,7 @@ function mostBugsResolved(client, callback) {
 function mostBugsOpened(client, callback) {
   var query = "select person_editing_name, count(*) AS bugs_opened from case_events " +
     "where event_type='CaseAssigned' and event_time between '2015-07-30' and '2015-08-04' " +
-    "group by person_editing_name order by count desc";
+    "group by person_editing_name order by bugs_opened desc";
   client.query(query, function (err, result) {
     console.log("most bugs opened error:");
     console.log(err);
@@ -23,7 +23,7 @@ function mostBugsOpened(client, callback) {
 function mostBugsReopened(client, callback) {
   var query = "select person_editing_name, count(*) AS bugs_reopened from case_events " +
     "where event_type='CaseReopened' and event_time between '2015-07-30' and '2015-08-04' " +
-    "group by person_editing_name order by count desc";
+    "group by person_editing_name order by bugs_reopened desc";
   client.query(query, function (err, result) {
     console.log("most bugs reopened error:");
     console.log(err);
@@ -34,7 +34,7 @@ function mostBugsReopened(client, callback) {
 function mostComments(client, callback) {
   var query = "select person_editing_name, count(*) AS num_comments from case_events " +
     "where event_type='CaseEdited' and event_text is not null and event_time between '2015-07-30' and '2015-08-04' " +
-    "group by person_editing_name order by count desc";
+    "group by person_editing_name order by num_comments desc";
   client.query(query, function (err, result) {
     console.log("most comments error:");
     console.log(err);
@@ -53,10 +53,10 @@ function longestComment(client, callback) {
 }
 
 function oldestBugResolved(client, callback) {
-  var query = "select person_editing_name, cases.case_id, cases.creation_date AS creation_date from case_events " +
+  var query = "select person_editing_name, cases.case_id, cases.creation_date AS first_creation_date from case_events " +
     "left outer join cases on (cases.case_id = case_events.case_id) " +
     "where event_type='CaseResolved' and event_time between '2015-07-30' and '2015-08-04' " +
-    "order by cases.creation_date desc";
+    "order by first_creation_date desc";
   client.query(query, function (err, result) {
     console.log("oldest bug error:");
     console.log(err);

@@ -77,7 +77,7 @@ app.get('/', function(request, response) {
       pushAward({
         name: 'When Pigs Fly',
         trophySrc: '/images/flyingpigaward.png',
-        rankings: [{name: topRow.person_editing_name, value: topRow.creation_date}],
+        rankings: [{name: topRow.person_editing_name, value: topRow.first_creation_date}],
         description: 'For Oldest Case Fixed'
       });
     });
