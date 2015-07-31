@@ -1,34 +1,26 @@
-.jumbotron {
-  background: #532F8C;
-  color: white;
-  padding-bottom: 80px;
-}
-.jumbotron .btn-primary {
-  background: #845ac7;
-  border-color: #845ac7;
-}
-.jumbotron .btn-primary:hover {
-  background: #7646c1;
-}
-.jumbotron p {
-  color: #d9ccee;
-  max-width: 75%;
-  margin: 1em auto 2em;
-}
-.navbar + .jumbotron {
-  margin-top: -20px;
-}
-.jumbotron .lang-logo {
-  display: block;
-  background: #B01302;
-  border-radius: 50%;
-  overflow: hidden;
-  width: 100px;
-  height: 100px;
-  margin: auto;
-  border: 2px solid white;
-}
-.jumbotron .lang-logo img {
-  max-width: 100%;
+.awardContainer {
+  display: flex;
 }
 
+.awardInfo {
+  border: 10px solid #8AC007;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.awardHeld {
+  font-size: 40px;
+}
+
+.awardWinnerName {
+  font-size: 60px;
+  font-weight: bold;
+}
+
+.awardDescription {
+  font-size: 40px;
+}

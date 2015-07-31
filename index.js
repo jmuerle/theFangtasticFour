@@ -15,10 +15,10 @@ app.get('/', function(request, response) {
   response.render('pages/index', {
     awards: [
       {
-        name: 'Bug sleuth',
+        name: 'Bug Sleuth',
         trophySrc: '/images/bugsleuth.png',
         winnerName: 'Sherlock Holmes',
-        description: 'Most bugs fixed'
+        description: 'For Most Bugs Fixed'
       }
     ]
   });
