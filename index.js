@@ -15,6 +15,7 @@ app.get('/', function(request, response) {
 
 app.get('/fogbugzUpdate', function(request, response) {
   console.log(request);
+  response.end("Thanks");
 });
 
 app.listen(app.get('port'), function() {
