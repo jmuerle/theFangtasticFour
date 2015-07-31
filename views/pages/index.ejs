@@ -5,8 +5,7 @@
 </head>
 
 <body>
-
-  <% include ../partials/nav.ejs %>
+  <h1>Awards</h1>
   <% awards.forEach(function(award) { %>
     <div class='awardContainer'>
       <div class='trophyImage' style='background-image:url("<%= award.trophySrc %>")'></div>

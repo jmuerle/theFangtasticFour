@@ -4,6 +4,7 @@
   background-position: center;
   width: 200px;
   height: 200px;
+  margin-top: 30px;
 }
 
 .awardContainer {
@@ -19,6 +20,7 @@
   padding-left: 30px;
   padding-right: 30px;
   min-width: 600px;
+  margin-top: 30px;
 }
 
 .awardHeld {
@@ -38,6 +40,7 @@
   border: 10px solid #8AC007;
   margin-left: 20px;
   min-width: 600px;
+  margin-top: 30px;
 }
 
 .leaderBoard {
