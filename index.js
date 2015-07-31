@@ -74,7 +74,7 @@ app.get('/', function(request, response) {
     });
     trophyQueries.longestComment(client, function (result) {
       var createRanking = function (row) {
-        return {name: row.person_editing_name, value: row.num_chars};
+        return {name: row.person_editing_name, value: "case: " + row.case_number + "; length: " + row.num_chars};
       }
       pushAward({
         name: 'Tolkien',
